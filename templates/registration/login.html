@@ -1,0 +1,77 @@
+{% extends "layout.html" %} {% load crispy_forms_tags %} {% block content %}
+<style>
+  /* Dark Mode Form Overrides */
+  label {
+    color: #adb5bd !important;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  .form-control {
+    background-color: #252525 !important;
+    border: 1px solid #444 !important;
+    color: #fff !important;
+    padding: 0.75rem;
+  }
+  .form-control:focus {
+    background-color: #2a2a2a !important;
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+  }
+  /* Link hover effect */
+  .text-info:hover {
+    text-decoration: underline !important;
+  }
+</style>
+
+<div
+  class="container mt-5"
+  id="login-container"
+  style="opacity: 0; transform: translateY(30px)"
+>
+  <div class="row justify-content-center">
+    <div
+      class="col-md-5 p-4 shadow-lg rounded-4 text-white"
+      style="background: #1a1a1a; border: 1px solid #333"
+    >
+      <h2 class="mb-4 text-center fw-bold">Welcome Back</h2>
+
+      <form method="post">
+        {% csrf_token %} {# Using |crispy ensures Bootstrap 5 classes are
+        applied to inputs #} {{ form|crispy }}
+
+        <div class="d-grid gap-2 mt-4">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg rounded-pill shadow"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-4 text-center">
+        <small class="text-secondary">
+          Don't have an account?
+          <a href="{% url 'register' %}" class="text-info text-decoration-none"
+            >Register here</a
+          >
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    gsap.to("#login-container", {
+      duration: 1,
+      y: 0,
+      opacity: 1,
+      ease: "back.out(1.7)", // Gives it a slight "bounce" effect
+      delay: 0.1,
+    });
+  });
+</script>
+
+{% endblock %}

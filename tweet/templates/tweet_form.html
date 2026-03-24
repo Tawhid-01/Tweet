@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {% if form.instance.pk %} Edit Tweet {% else %} New Tweet {% endif %}
+{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #1da1f2;
+        --dark-bg: #15202b;
+        --text-main: #ffffff;
+        --text-muted: #8899a6;
+        --border-color: #38444d;
+    }
+
+    .tweet-container {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+        font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .tweet-card {
+        background: #192734;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        border: 1px solid var(--border-color);
+    }
+
+    .premium-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: var(--text-main);
+    }
+
+    .premium-subtitle {
+        color: var(--text-muted);
+        font-size: 1rem;
+        margin-bottom: 24px;
+    }
+
+    .divider {
+        border: 0;
+        border-top: 1px solid var(--border-color);
+        margin-bottom: 30px;
+    }
+
+    .form-action-label {
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge.edit { background: #f5a623; color: #000; }
+    .badge.create { background: var(--primary-color); color: #fff; }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-secondary {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+        margin-left: 15px;
+    }
+
+    /* Styles the Django form labels and inputs */
+    .form-group p {
+        margin-bottom: 20px;
+    }
+    
+    .form-group input, .form-group textarea {
+        width: 100%;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px;
+        color: white;
+        margin-top: 8px;
+    }
+</style>
+
+
+
+
+<div class="tweet-container">
+    <div class="tweet-card">
+        <header class="tweet-header">
+            <h1 class="premium-title">Welcome to Tweet</h1>
+            <p class="premium-subtitle">Share your thoughts with the world</p>
+        </header>
+
+        <hr class="divider">
+
+        <div class="form-section">
+            <h2 class="form-action-label">
+                {% if form.instance.pk %}
+                    <span class="badge edit">Edit Mode</span>
+                    Update your post
+                {% else %}
+                    <span class="badge create">Draft</span>
+                    Create a new tweet
+                {% endif %}
+            </h2>
+
+            <form method="POST" enctype="multipart/form-data" class="premium-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">
+                        {% if form.instance.pk %}
+                         Save Changes 
+                         {% else %}
+                          Post Tweet 
+                         {% endif %}
+                    </button>
+                    <a href="{% url 'tweet_list' %}" class="btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
