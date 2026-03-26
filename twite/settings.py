@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tweet',
+    'django_resized',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -124,14 +125,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+import os
 
+# Force the absolute path to bypass environment issues
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/Tawhid/Tweet/staticfiles'
 
-STSTIC_URL = '/static/'
+# Keep this to include your app's static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+# Media settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/tweet/'
 LOGOUT_REDIRECT_URL = '/tweet/'
@@ -141,5 +149,5 @@ LOGOUT_REDIRECT_URL = '/tweet/'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-ALLOWED_HOSTS = ['tawhid.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['Tawhid.pythonanywhere.com', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://tawhid.pythonanywhere.com']

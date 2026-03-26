@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %} {{ user.username }}'s Profile {% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark border-secondary shadow-sm mb-4">
+            <div class="card-body text-center p-5">
+                {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image.url }}" 
+                         class="rounded-circle img-thumbnail mb-3 border-info" 
+                         style="width: 150px; height: 150px; object-fit: cover; background-color: #212529;">
+                {% else %}
+                    <i class="bi bi-person-circle text-info" style="font-size: 5rem;"></i>
+                {% endif %}
+                
+                <h2 class="fw-bold text-white">{{ user.username }}</h2>
+                <p class="text-info mb-3">
+                    <i class="bi bi-geo-alt"></i> {{ user.profile.location|default:"No location set" }}
+                </p>
+                
+                <p class="lead text-secondary mx-auto" style="max-width: 500px;">
+                    {{ user.profile.bio|default:"This user hasn't written a bio yet." }}
+                </p>
+
+                <div class="mt-4">
+                    <a href="{% url 'edit-profile' %}" class="btn btn-outline-info rounded-pill px-4">
+                        <i class="bi bi-pencil-square"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="text-white mb-3 border-bottom border-secondary pb-2">Your Tweets</h4>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for tweet in user.tweet_set.all %}
+                <div class="col">
+                    <div class="card bg-dark border-secondary h-100 shadow-sm">
+                        {% if tweet.photo %}
+                            <img src="{{ tweet.photo.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text text-white">{{ tweet.text|truncatechars:100 }}</p>
+                            <small class="text-muted">{{ tweet.created_at|date:"M d, Y" }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center mt-5">
+                    <p class="text-secondary">You haven't posted any tweets yet.</p>
+                    <a href="{% url 'tweet_create' %}" class="btn btn-primary btn-sm">Post your first tweet</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

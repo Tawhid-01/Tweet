@@ -125,6 +125,8 @@
           <div class="tweet-image-box">
             <img src="{{ tweet.photo.url }}" alt="Tweet media" />
           </div>
+          {% else %}
+    <p class="text-muted small">No image attached.</p>
           {% endif %}
 
           <div class="tweet-text mt-2 flex-grow-1">{{ tweet.text }}</div>
